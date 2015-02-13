@@ -1,0 +1,58 @@
+package convertidor;
+import java_cup.runtime.*;
+parser code {:
+    public void report_error(String message, Object info) {
+       	StringBuffer m = new StringBuffer("Error");
+	 System.out.println("Mensaje: "+message);
+	 System.out.println("info: "+info.toString());
+            if(info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s=((java_cup.runtime.Symbol)info);
+                /* Comprueba si el numero de línea es mayor o igual que cero */
+			if(s.left >= 0) {
+				m.append(" en linea "+(s.left+1));
+				/*Comprueba si el numero de columna es mayor o igual que cero */
+				if (s.right >= 0)
+					m.append(", y columna "+(s.right+1));
+                            }
+                        }
+                        if (info.toString().equals("#0")) {
+                        txtErrores.setText("..SENTENCIA MAL INGRESADA.. PROBLEMA DEL OPERADOR");
+                         } else {
+                            if (info.toString().equals("#12")) {
+                                 txtErrores.setText(("NO SE ACEPTAN PALABRAS EN MAYUSCULA") + "\n"
+                                     + ("NO SE ACEPTAN PALABRAS NO RESERVADAS"));
+                            }
+                         }
+                        if (info.toString().equals("#1")) {
+                        txtErrores.setText("..NO SE PUEDE INGRESAR DÍGITOS Y LETRAS MAYUSCULAS..");
+                        }
+		m.append(" : "+message);
+		System.err.println(m);
+    }
+  public void report_fatal_error(String message, Object info) {
+               	report_error(message, info);}
+
+public String palabra;
+
+	public String convertir(String cadena){
+                if(cadena.){
+
+                }
+                palabra=cadena.toUpperCase();
+		return (cadena.toUpperCase()) ;
+	}
+:};
+
+terminal        clase, metodo, java, programacion, atributo, lenguaje, herencia,
+                simbolo, codigo, variable, CONVERTIR;
+non terminal    programa,sentencia,palabra;
+
+
+programa ::= sentencia:s {:System.out.println(s);:};
+  sentencia::= palabra:p  CONVERTIR 
+{:RESULT = parser.convertir(p.toString());:};
+
+
+	
+palabra ::= clase {:RESULT="clase";:}|metodo {:RESULT="metodo";:}|java{:RESULT="java";:}|programacion{:RESULT="programacion";:}|atributo {:RESULT="atributo";:}|lenguaje {:RESULT="lenguaje";:}|herencia{:RESULT="herencia";:}|simbolo{:RESULT="simnolo";:}|codigo{:RESULT="codigo";:}|variable{:RESULT="variable";:};
+
